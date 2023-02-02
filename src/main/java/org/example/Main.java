@@ -8,7 +8,7 @@ import java.sql.*;
 public class Main {
     public static void main(String[] args) throws SQLException {
         Database date = Database.getInstance();
-        date.getConnection();
+
         System.out.println(new DatabaseQueryService(date).findMaxSalary().toString());
         System.out.println(new DatabaseQueryService(date).findMaxProjectCountClient().toString());
         System.out.println(new DatabaseQueryService(date).findLongestPrs().toString());
