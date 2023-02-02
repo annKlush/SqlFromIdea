@@ -32,16 +32,6 @@ public class Database {
         }
     }
 
-    public ResultSet executeQuery(String sql) {
-        try (Statement st = getConnection().createStatement()) {
-            ResultSet rs = st.executeQuery(sql);
-            return rs;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-
     public Connection getConnection() {
         return connection;
     }

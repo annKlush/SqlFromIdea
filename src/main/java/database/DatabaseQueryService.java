@@ -28,7 +28,7 @@ public class DatabaseQueryService {
     }
 
 
-    public List<MaxSalary> findMaxSalary() {
+    public List<MaxSalary> findMaxSalary() throws SQLException {
         List<MaxSalary> maxSalaryList = new ArrayList<>();
         try {
             String sql = String.join("\n", Files.readAllLines(Paths.get(FIND_MAX_SALARY)));
@@ -39,10 +39,11 @@ public class DatabaseQueryService {
         } catch (Exception ex) {
             System.out.println("Connection failed...");
         }
+        st.close();
         return maxSalaryList;
     }
 
-    public List<MaxProjectCountClient> findMaxProjectCountClient() {
+    public List<MaxProjectCountClient> findMaxProjectCountClient() throws SQLException {
         List<MaxProjectCountClient> maxProjectCountClientList = new ArrayList<>();
         try {
             String sql = String.join("\n", Files.readAllLines(Paths.get(FIND_MAX_PR_CL)));
@@ -53,10 +54,11 @@ public class DatabaseQueryService {
         } catch (Exception ex) {
             System.out.println("Connection failed...");
         }
+        st.close();
         return maxProjectCountClientList;
     }
 
-    public List<LongestPr> findLongestPrs() {
+    public List<LongestPr> findLongestPrs() throws SQLException {
         List<LongestPr> longestPrList = new ArrayList<>();
         try {
             String sql = String.join("\n", Files.readAllLines(Paths.get(FIND_LONGEST_Pr)));
@@ -67,10 +69,11 @@ public class DatabaseQueryService {
         } catch (Exception ex) {
             System.out.println("Connection failed...");
         }
+        st.close();
         return longestPrList;
     }
 
-    public List<YoungOldWorker> findYoungOldWorker() {
+    public List<YoungOldWorker> findYoungOldWorker() throws SQLException {
         List<YoungOldWorker> youngOldWorkerList = new ArrayList<>();
         try {
             String sql = String.join("\n", Files.readAllLines(Paths.get(FIND_YOUNG_OLD_WORKER)));
@@ -81,10 +84,11 @@ public class DatabaseQueryService {
         } catch (Exception ex) {
             System.out.println("Connection failed...");
         }
+        st.close();
         return youngOldWorkerList;
     }
 
-    public List<PrPrice> printPrPrice() {
+    public List<PrPrice> printPrPrice() throws SQLException {
         List<PrPrice> prPriceList = new ArrayList<>();
         try {
             String sql = String.join("\n", Files.readAllLines(Paths.get(PRINT_PR_PRICES)));
@@ -95,6 +99,7 @@ public class DatabaseQueryService {
         } catch (Exception ex) {
             System.out.println("Connection failed...");
         }
+        st.close();
         return prPriceList;
     }
 }
