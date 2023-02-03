@@ -10,7 +10,7 @@ public class Database {
 
     private Connection connection;
 
-    private Database() {
+    public Database() {
         try {
             String connectionUrl = "jdbc:h2:./test";
             connection = DriverManager.getConnection(connectionUrl);

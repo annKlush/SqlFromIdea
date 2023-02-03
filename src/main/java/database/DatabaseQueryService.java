@@ -1,9 +1,9 @@
 package database;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -19,87 +19,94 @@ public class DatabaseQueryService {
     public static final String FIND_YOUNG_OLD_WORKER = "./sql/find_youngest_eldest_workers.sql";
     public static final String PRINT_PR_PRICES = "./sql/print_project_prices.sql";
 
-    private Statement st;
-    private Database date;
 
-    public DatabaseQueryService(Database database) throws SQLException {
-        this.date = database;
-        st = date.getConnection().createStatement();
-    }
-
-
-    public List<MaxSalary> findMaxSalary() throws SQLException {
+    public List<MaxSalary> findMaxSalary() throws IOException {
         List<MaxSalary> maxSalaryList = new ArrayList<>();
-        try {
-            String sql = String.join("\n", Files.readAllLines(Paths.get(FIND_MAX_SALARY)));
-            ResultSet rs = st.executeQuery(sql);
+        String sql = String.join("\n", Files.readAllLines(Paths.get(FIND_MAX_SALARY)));
+        Database date = new Database();
+        try (Statement st = date.getConnection().createStatement();
+             ResultSet rs = st.executeQuery(sql)
+        ) {
             while (rs.next()) {
                 maxSalaryList.add(new MaxSalary(rs.getInt("SALARY"), rs.getString("NAME")));
             }
         } catch (Exception ex) {
             System.out.println("Connection failed...");
+        }finally {
+            date.close();
         }
-        st.close();
         return maxSalaryList;
     }
 
-    public List<MaxProjectCountClient> findMaxProjectCountClient() throws SQLException {
+    public List<MaxProjectCountClient> findMaxProjectCountClient() throws IOException {
         List<MaxProjectCountClient> maxProjectCountClientList = new ArrayList<>();
-        try {
-            String sql = String.join("\n", Files.readAllLines(Paths.get(FIND_MAX_PR_CL)));
-            ResultSet rs = st.executeQuery(sql);
+        String sql = String.join("\n", Files.readAllLines(Paths.get(FIND_MAX_PR_CL)));
+        Database date = new Database();
+        try (Statement st = date.getConnection().createStatement();
+             ResultSet rs = st.executeQuery(sql)
+        ) {
             while (rs.next()) {
                 maxProjectCountClientList.add(new MaxProjectCountClient(rs.getString("NAME"), rs.getInt("PROJECT_COUNT")));
             }
         } catch (Exception ex) {
             System.out.println("Connection failed...");
+        }finally {
+            date.close();
         }
-        st.close();
         return maxProjectCountClientList;
     }
 
-    public List<LongestPr> findLongestPrs() throws SQLException {
+    public List<LongestPr> findLongestPrs() throws IOException {
         List<LongestPr> longestPrList = new ArrayList<>();
-        try {
-            String sql = String.join("\n", Files.readAllLines(Paths.get(FIND_LONGEST_Pr)));
-            ResultSet rs = st.executeQuery(sql);
+        Database date = new Database();
+        String sql = String.join("\n", Files.readAllLines(Paths.get(FIND_LONGEST_Pr)));
+        try (Statement st = date.getConnection().createStatement();
+             ResultSet rs = st.executeQuery(sql)
+        ) {
             while (rs.next()) {
                 longestPrList.add(new LongestPr(rs.getInt("ID"), rs.getInt("MONTH_COUNT")));
             }
         } catch (Exception ex) {
             System.out.println("Connection failed...");
+        }finally {
+            date.close();
         }
-        st.close();
         return longestPrList;
     }
 
-    public List<YoungOldWorker> findYoungOldWorker() throws SQLException {
+    public List<YoungOldWorker> findYoungOldWorker() throws IOException {
         List<YoungOldWorker> youngOldWorkerList = new ArrayList<>();
-        try {
-            String sql = String.join("\n", Files.readAllLines(Paths.get(FIND_YOUNG_OLD_WORKER)));
-            ResultSet rs = st.executeQuery(sql);
+        Database date = new Database();
+        String sql = String.join("\n", Files.readAllLines(Paths.get(FIND_YOUNG_OLD_WORKER)));
+        try (Statement st = date.getConnection().createStatement();
+             ResultSet rs = st.executeQuery(sql)
+        ) {
             while (rs.next()) {
                 youngOldWorkerList.add(new YoungOldWorker(rs.getString("TYPE"), rs.getString("NAME"), LocalDate.parse(rs.getString("BIRTHDAY"))));
             }
         } catch (Exception ex) {
             System.out.println("Connection failed...");
+        }finally {
+            date.close();
         }
-        st.close();
         return youngOldWorkerList;
     }
 
-    public List<PrPrice> printPrPrice() throws SQLException {
+    public List<PrPrice> printPrPrice() throws IOException {
         List<PrPrice> prPriceList = new ArrayList<>();
-        try {
-            String sql = String.join("\n", Files.readAllLines(Paths.get(PRINT_PR_PRICES)));
-            ResultSet rs = st.executeQuery(sql);
+        Database date = new Database();
+        String sql = String.join("\n", Files.readAllLines(Paths.get(PRINT_PR_PRICES)));
+        try (Statement st = date.getConnection().createStatement();
+             ResultSet rs = st.executeQuery(sql)
+        ) {
             while (rs.next()) {
                 prPriceList.add(new PrPrice(rs.getInt("PROJECT_ID"), rs.getInt("PRICE")));
             }
         } catch (Exception ex) {
             System.out.println("Connection failed...");
+        }finally {
+            date.close();
         }
-        st.close();
         return prPriceList;
     }
 }

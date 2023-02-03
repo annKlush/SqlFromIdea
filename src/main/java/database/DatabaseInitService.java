@@ -10,13 +10,13 @@ public class DatabaseInitService {
 
     public static void main(String[] args) {
         Database date = Database.getInstance();
-        date.getConnection();
         try {
             String sqlInit = String.join("\n", Files.readAllLines(Paths.get(INIT_DB_SQL_FILE_PATH)));
             date.executeUpdate(sqlInit);
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }  finally {
+            date.close();
         }
-        date.close();
     }
 }
