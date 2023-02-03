@@ -1,19 +1,17 @@
 package org.example;
 
-import database.Database;
 import database.DatabaseQueryService;
 
-import java.sql.*;
+import java.io.IOException;
+
 
 public class Main {
-    public static void main(String[] args) throws SQLException {
-        Database date = Database.getInstance();
+    public static void main(String[] args) throws IOException {
+        System.out.println(new DatabaseQueryService().findMaxSalary().toString());
+        System.out.println(new DatabaseQueryService().findMaxProjectCountClient().toString());
+        System.out.println(new DatabaseQueryService().findLongestPrs().toString());
+        System.out.println(new DatabaseQueryService().findYoungOldWorker().toString());
+        System.out.println(new DatabaseQueryService().printPrPrice().toString());
 
-        System.out.println(new DatabaseQueryService(date).findMaxSalary().toString());
-        System.out.println(new DatabaseQueryService(date).findMaxProjectCountClient().toString());
-        System.out.println(new DatabaseQueryService(date).findLongestPrs().toString());
-        System.out.println(new DatabaseQueryService(date).findYoungOldWorker().toString());
-        System.out.println(new DatabaseQueryService(date).printPrPrice().toString());
-        date.close();
     }
 }
